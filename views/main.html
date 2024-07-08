@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV Balangan</title>
+    <link rel="icon" type="image/png" href="balangan.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <link href="https://fonts.googleapis.com/css2?family=Mooli&family=Quicksand:wght@300..700&family=Roboto+Flex:opsz,wght@8..144,100&display=swap" rel="stylesheet">
+
+</head>
+<body style="font-family: 'Quicksand', sans-serif;">
+    <link rel="stylesheet" href="https://web-raker-deploy.vercel.app/all.css">
+    <script src="https://unpkg.com/vue@2"></script>
+    <script src="https://unpkg.com/vue-select@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.5.14/hls.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <style>
+        #map { height:88vh;width: 100%; }
+        #vs1__combobox{
+            width: 100%;
+        }
+        path.leaflet-interactive:focus {
+            outline: none;
+        }
+    </style>
+    <div id="app">
+        <div class="py-2 px-2 shadow bg-dark text-white font-bold">
+        </div>
+        <div class="py-2 px-2 shadow   font-bold" style="border-left: 4px solid rgb(104, 192, 152);">
+            <div class="ml-2 cursor-pointer">
+                <img src="balangan.png" style="height:30px;" alt="">
+                <!-- <svg width="20" height="20" style="fill: rgb(30, 148, 55);" class="d-inline ml-2 mr-4 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg> -->
+                <span class="ml-3 text-sm">System CCTV Kabupaten Balangan</span>
+            </div>
+          </div>
+        <div class="row">
+            <div class="col-7 col-sm-4">
+                <v-select :options="list_video" label="nama" placeholder="Pencarian CCTV ..." style="font-size:13px;padding-left:10px;padding-top:10px;padding-bottom: 10px;margin-right:10px;" v-model="vdata.id" :reduce="e => e.id" ></v-select>
+            </div>
+            <div class="col-4 col-sm-4">
+                <select class='form-control  text-xs p-0'  style="margin-top:10px;height:30px;" v-model="vdata.wilayah" >
+                    <option value="all">ALL</option>
+                    <option :value="item" v-for="(item, index) in wilayah" :key="index+'wilayah'">{{item}}</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="button"  class="btn btn-sm btn-dark mt-2" @click="myLocation">
+                    <svg style="display: inline;fill:white;" height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M320 64A64 64 0 1 0 192 64a64 64 0 1 0 128 0zm-96 96c-35.3 0-64 28.7-64 64v48c0 17.7 14.3 32 32 32h1.8l11.1 99.5c1.8 16.2 15.5 28.5 31.8 28.5h38.7c16.3 0 30-12.3 31.8-28.5L318.2 304H320c17.7 0 32-14.3 32-32V224c0-35.3-28.7-64-64-64H224zM132.3 394.2c13-2.4 21.7-14.9 19.3-27.9s-14.9-21.7-27.9-19.3c-32.4 5.9-60.9 14.2-82 24.8c-10.5 5.3-20.3 11.7-27.8 19.6C6.4 399.5 0 410.5 0 424c0 21.4 15.5 36.1 29.1 45c14.7 9.6 34.3 17.3 56.4 23.4C130.2 504.7 190.4 512 256 512s125.8-7.3 170.4-19.6c22.1-6.1 41.8-13.8 56.4-23.4c13.7-8.9 29.1-23.6 29.1-45c0-13.5-6.4-24.5-14-32.6c-7.5-7.9-17.3-14.3-27.8-19.6c-21-10.6-49.5-18.9-82-24.8c-13-2.4-25.5 6.3-27.9 19.3s6.3 25.5 19.3 27.9c30.2 5.5 53.7 12.8 69 20.5c3.2 1.6 5.8 3.1 7.9 4.5c3.6 2.4 3.6 7.2 0 9.6c-8.8 5.7-23.1 11.8-43 17.3C374.3 457 318.5 464 256 464s-118.3-7-157.7-17.9c-19.9-5.5-34.2-11.6-43-17.3c-3.6-2.4-3.6-7.2 0-9.6c2.1-1.4 4.8-2.9 7.9-4.5c15.3-7.7 38.8-14.9 69-20.5z"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-sm-4 d-none d-sm-block">
+                <div class="p-2" style="height: 80vh;overflow: scroll;">
+                    <p class="font-semibold text-xs ml-3">List CCTV Balangan</p>
+                    <div v-for="(item, index) in list_video" :key="index+'list_cctv'" class="p-2">
+                        <div class="card shadow rounded-lg shadow" style="border-left: 4px solid rgb(104, 192, 152);">
+                            <div class="card-body p-2  hover:bg-blue-400 cursor-pointer" @click="vdata.id=item.id">
+                                <span class="float-right">
+                                    <svg height="20" width="20" style="fill:black;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM294.6 135.1l99.9 107.1c3.5 3.8 5.5 8.7 5.5 13.8s-2 10.1-5.5 13.8L294.6 376.9c-4.2 4.5-10.1 7.1-16.3 7.1C266 384 256 374 256 361.7l0-57.7-96 0c-17.7 0-32-14.3-32-32l0-32c0-17.7 14.3-32 32-32l96 0 0-57.7c0-12.3 10-22.3 22.3-22.3c6.2 0 12.1 2.6 16.3 7.1z"/></svg>
+                                </span>
+                                <h5 class="card-title m-0 p-0 rounded-lg">CCTV {{item.wilayah}}</h5>
+                                <span class="float-right text-green-400 font-bold text-xs">Online</span>
+                                <p class="card-text m-0 p-0">{{item.nama}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-sm-8 rounded-lg shadow">
+                
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var map 
+    Vue.component('v-select', VueSelect.VueSelect)
+    new Vue({
+        el: '#app',
+        data: {
+            vdata:{
+                wilayah:'',
+                id:''
+            },
+            list_video: [
+                {
+                    id:'video1',
+                    nama:'Simpang Komplek 25',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.335925,
+                    lng:115.458998,
+                    geojson:"",
+                    video:'stream001'
+                },
+                {
+                    id:'video2',
+                    nama:'Depan Kantor Bupati',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.364274,
+                    lng:115.470062,
+                    geojson:"",
+                    video:'stream002'
+                },
+                {
+                    id:'video3',
+                    nama:'Simpang 3 Diskominfo',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.361889,
+                    lng:115.469438,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video4',
+                    nama:'Simpang 4 mesjid Al-Akbar',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.354199,
+                    lng:115.469315,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video5',
+                    nama:'Simpang DPR ganti ke Simpang mesjid batu piring ',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.340320,
+                    lng:115.459165,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video6',
+                    nama:'Simpang Taman sehati',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.341736,
+                    lng:115.461037,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video7',
+                    nama:'Simpang wisma mayandar',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.335034,
+                    lng:115.461059,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video8',
+                    nama:'Simpang pasar adaro',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.333975,
+                    lng:115.461575,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video9',
+                    nama:'Simpang Tugu Monumen',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.336284,
+                    lng:115.459914,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video10',
+                    nama:'Simpang Taman Sanggam',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.336628,
+                    lng:115.459220,
+                    geojson:"",
+                    video:'stream003'
+                },
+                {
+                    id:'video11',
+                    nama:'Simpang 3 Batu Piring',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.338500,
+                    lng:115.457265,
+                    geojson:"",
+                    video:'stream003'
+                },
+            ],
+            wilayah:[
+                'AWAYAN',
+                'BATU MANDI',
+                'HALONG',
+                'JUAI',
+                'LAMPIHONG',
+                'PARINGIN',
+                'PARINGIN SELATAN',
+                'TEBING TINGGI'
+            ],
+            position:{},
+            markers:{},
+            geojson:false
+        },
+        computed:{
+            td(){
+                let that=this;
+                let data =this.list_video
+                if(that.vdata.wilayah!='all'){
+                    data=data.filter(e=>e.wilayah.indexOf(that.vdata.wilayah)!=-1)
+                }
+                if(that.vdata.id!=''){
+                    data=data.filter(e=>e.id==that.vdata.id)
+                }
+                return data
+            }
+        },
+        watch: {
+            'vdata.wilayah': function(newVal, oldVal) {
+                if(this.vdata.wilayah=='all'){
+                    this.vdata.id=''
+                }
+                this.clearMarkers(); // Clear existing markers
+                this.renderMap(); // Render map with new markers based on the selected wilayah
+            },
+            'vdata.id': function(newVal, oldVal) {
+                if(this.vdata.id==null){
+                    this.vdata.id=''
+                    this.vdata.wilayah=''
+                }
+                let index = this.list_video.findIndex(e=>e.id==this.vdata.id)
+                console.log(index)
+                console.log('this.list_video',this.list_video)
+                this.clearMarkers(); // Clear existing markers
+                this.renderMap([this.list_video[index]['lat'],this.list_video[index]['lng']],16); // Render map with new markers based on the selected wilayah
+            },
+        },
+        methods: {
+            myLocation(){
+                let that=this;
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, function(){});
+                }
+                function showPosition(position) {
+                    that.position.lat = position.coords.latitude;
+                    that.position.lng = position.coords.longitude;
+                    if(map){
+                        map.flyTo([that.position.lat, that.position.lng],18);
+                    }
+                }
+            },
+            clearMarkers() {
+                for(let markerId in this.markers) {
+                    map.removeLayer(this.markers[markerId]); // Remove marker from map
+                }
+                this.markers = {}; // Reset the markers object
+            },
+            startStream(videoElement, streamSrc) {
+                if(Hls.isSupported()){
+                    var hls = new Hls();
+                    hls.loadSource(streamSrc);
+                    hls.attachMedia(videoElement);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        videoElement.play();
+                    });
+                } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')){
+                    videoElement.src = streamSrc;
+                    videoElement.addEventListener('loadedmetadata', function() {
+                        videoElement.play();
+                    });
+                }
+            },
+            playStream(el,stream){
+                let that=this;
+                var videoElement = document.getElementById(el);
+                videoElement.addEventListener('timeupdate', seekToEnd);
+                videoElement.setAttribute('controls', '');
+                function seekToEnd() {
+                    var timeLeft = this.duration - this.currentTime;
+                    if (timeLeft <= 1) {
+                        that.startStream(videoElement, `/streams/${stream}.m3u8`);
+                    }
+                }
+                that.startStream(videoElement, `/streams/${stream}.m3u8`);
+            },
+            async renderMap(target=[-2.3497424, 115.4600959],zoom=14){
+                let that=this;
+                if (!map) {
+                    // Initialize the map only if it hasn't been initialized before
+                    map = L.map('map',{ attributionControl: false }).setView([-2.3497424, 115.4600959], 14);
+                    L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',{
+                        maxZoom: 20,
+                        subdomains:['mt0','mt1','mt2','mt3']
+                    }).addTo(map);
+                } else {
+                    // If the map is already initialized, just adjust its view (optional)
+                    // map.setView(target, zoom);
+                    map.flyTo(target, zoom);
+                }
+                var myCustomIcon = L.icon({
+                    iconUrl: '/camera.png',
+                    iconSize: [28, 35], // size of the icon
+                    iconAnchor: [22, 44], // point of the icon which will correspond to marker's location
+                    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+                });
+                // that.clearMarkers();
+                that.td.forEach((e,i)=>{
+                    that.markers[e.id] = L.marker([e.lat, e.lng],{
+                        draggable: false,
+                        autoPan: true,
+                        icon:myCustomIcon
+                    }).addTo(map)
+                        .bindPopup(`
+                        <p class="font-semibold">
+                            <svg width="15" height="15" style="fill: black;" class="d-inline ml-2 mr-2 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg>
+                            ${e.nama}</p>
+                        <video id="${e.id}" preload="auto" height="200" width="300" muted src="/new.mp4" ></video>
+                        `)
+                        .on('click',()=>{
+                            setTimeout(() => {
+                                that.playStream(`${e.id}`,`${e.video}`)
+                            }, 1000);
+                    })
+                })
+
+                // Now, fetch the GeoJSON data from the server if not already available
+                if(!this.geojson){
+                    let res = await axios.get('/balangan2.geojson')
+                    console.log('res',res)
+                    // Store the fetched data for future use to avoid multiple requests
+                    let geojsonData = res.data;
+                    // Then add it to the map
+                    L.geoJSON(geojsonData, {
+                        style: function (feature) {
+                            return {
+                                color: feature.properties.stroke || "#555555",
+                                weight: feature.properties["stroke-width"] || 2,
+                                opacity: 0.1,
+                                fillOpacity: feature.properties["fill-opacity"] || 0.2,
+                                fillColor: feature.properties.fill || "#1adb4a"
+                            };
+                        },
+                        onEachFeature: function (feature, layer) {
+                            // Save the original style
+                            const originalStyle = {
+                                fillColor: layer.options.fillColor,
+                                fillOpacity: layer.options.fillOpacity
+                            };
+
+                            // If you want to show the KECAMATAN property on hover
+                            layer.on('mouseover', function () {
+                                layer.setStyle({fillOpacity: 0});  // Hide fill on hover
+                                // Create a custom tooltip with animation
+                                const tooltipContent = `<div class="animate__animated animate__fadeIn p-2"><h5>${feature.properties.KECAMATAN}</h5></div>`;
+                                layer.bindTooltip(tooltipContent).openTooltip();
+                            });
+                            layer.on('mouseout', function () {
+                                layer.setStyle(originalStyle);  // Restore original style
+                                layer.unbindTooltip();
+                            });
+                            layer.on('click', function () {
+                                console.log('layer',layer)
+                                // layer.setStyle({color: 'transparent'}); // Set color to transparent or any style you prefer
+                            });
+                        }
+                    }).addTo(map);
+                    this.geojson=true
+                }
+            }
+        },
+        mounted() {
+            let that=this
+            setTimeout(() => {
+                that.renderMap()
+                console.log('start this')
+                 // document.getElementById('video1').addEventListener('click',()=>{
+                //     that.playStream('video1','stream001')
+                // })
+                // document.getElementById('video2').addEventListener('click',()=>{
+                //     that.playStream('video2','stream002')
+                // })
+                // document.getElementById('video3').addEventListener('click',()=>{
+                //     that.playStream('video3','stream003')
+                // })
+            }, 1000);
+           
+        },
+    })
+    </script>
+
+</body>
+</html>
