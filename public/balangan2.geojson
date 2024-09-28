@@ -1,7 +1,7 @@
 {
     "type": "FeatureCollection",
     "features": [
-        {
+	{
             "type": "Feature",
             "geometry": {
                 "type": "Polygon",
@@ -16244,7 +16244,7 @@
                             ]
                         ]
                     ]
-                ]
+               ] 
             },
             "properties": {
                 "KECAMATAN": "TEBING TINGGI",

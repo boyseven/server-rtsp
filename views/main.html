@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="IvW7YfV2G4OpKVK-P7dd9MXih62yZ9idN9QEbeEOpHY" />
     <title>CCTV Balangan</title>
     <link rel="icon" type="image/png" href="balangan.png">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -38,7 +39,7 @@
             <div class="ml-2 cursor-pointer">
                 <img src="balangan.png" style="height:30px;" alt="">
                 <!-- <svg width="20" height="20" style="fill: rgb(30, 148, 55);" class="d-inline ml-2 mr-4 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg> -->
-                <span class="ml-3 text-sm">System CCTV Kabupaten Balangan</span>
+                <span class="ml-3 text-sm">CCTV Kab. Balangan - BAJALANAN (Balihat Jalur Utama Balangan)</span>
             </div>
           </div>
         <div class="row">
@@ -67,7 +68,7 @@
                                 <span class="float-right">
                                     <svg height="20" width="20" style="fill:black;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM294.6 135.1l99.9 107.1c3.5 3.8 5.5 8.7 5.5 13.8s-2 10.1-5.5 13.8L294.6 376.9c-4.2 4.5-10.1 7.1-16.3 7.1C266 384 256 374 256 361.7l0-57.7-96 0c-17.7 0-32-14.3-32-32l0-32c0-17.7 14.3-32 32-32l96 0 0-57.7c0-12.3 10-22.3 22.3-22.3c6.2 0 12.1 2.6 16.3 7.1z"/></svg>
                                 </span>
-                                <h5 class="card-title m-0 p-0 rounded-lg">CCTV {{item.wilayah}}</h5>
+                                <h5 class="card-title m-0 p-0 rounded-lg">{{item.wilayah}}</h5>
                                 <span class="float-right text-green-400 font-bold text-xs">Online</span>
                                 <p class="card-text m-0 p-0">{{item.nama}}</p>
                             </div>
@@ -94,107 +95,207 @@
             list_video: [
                 {
                     id:'video1',
-                    nama:'Simpang Komplek 25',
+		    nama:'Kantor Bupati',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.335925,
-                    lng:115.458998,
+                    lat:-2.363788323990113,
+                    lng:115.4699682075409,
                     geojson:"",
                     video:'stream001'
                 },
-                {
+		/*{
                     id:'video2',
-                    nama:'Depan Kantor Bupati',
+		    nama:'Kantor Bupati->Gerbang Keluar',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.364274,
-                    lng:115.470062,
+                    lat:-2.3644046945128694,
+                    lng:115.47009986694789,
                     geojson:"",
                     video:'stream002'
                 },
-                {
+       		{
                     id:'video3',
-                    nama:'Simpang 3 Diskominfo',
+                    nama:'Depan Diskominfo',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.361889,
-                    lng:115.469438,
+                    lat:-2.361837484295586,
+                    lng:115.46938891770836,
                     geojson:"",
                     video:'stream003'
-                },
-                {
+                },*/
+		{
                     id:'video4',
-                    nama:'Simpang 4 mesjid Al-Akbar',
+                    nama:'Depan Diskominfo',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.354199,
-                    lng:115.469315,
+                    lat:-2.3620226772362702,
+                    lng:115.46948539927936,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream004'
                 },
                 {
                     id:'video5',
-                    nama:'Simpang DPR ganti ke Simpang mesjid batu piring ',
+                    nama:'Mesjid Al Akbar',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.340320,
-                    lng:115.459165,
+                    lat:-2.354023958966648,
+                    lng:115.46910961328457,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream005'
                 },
-                {
+		/*{
                     id:'video6',
-                    nama:'Simpang Taman sehati',
+                    nama:'Mesjid Al Akbar 2',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.341736,
-                    lng:115.461037,
+                    lat:-2.35419749427256,
+                    lng:115.46937441102732,
                     geojson:"",
-                    video:'stream003'
-                },
+                    video:'stream006'
+                },*/
                 {
                     id:'video7',
-                    nama:'Simpang wisma mayandar',
+                    nama:'Simp. 3 Taman Sehati',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.335034,
-                    lng:115.461059,
+                    lat:-2.3418677755068087,
+                    lng:115.46125823125058,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream007'
                 },
-                {
+		/*{
                     id:'video8',
-                    nama:'Simpang pasar adaro',
+		    nama:'Taman Sehati->Putar Balik',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.333975,
-                    lng:115.461575,
+                    lat:-2.342145593421203,
+                    lng:115.46138575995522,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream008'
                 },
                 {
                     id:'video9',
-                    nama:'Simpang Tugu Monumen',
+                    nama:'Simp Batu Piring 1',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.336284,
-                    lng:115.459914,
+                    lat:-2.3403021819631897,
+                    lng:115.45901756123448,
                     geojson:"",
-                    video:'stream003'
-                },
-                {
+                    video:'stream009'
+                },*/
+		{
                     id:'video10',
-                    nama:'Simpang Taman Sanggam',
+                    nama:'Simp Batu Piring',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.336628,
-                    lng:115.459220,
+                    lat:-2.339883271048221,
+                    lng:115.45899363970557,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream010'
+                },
+                /*{
+                    id:'video11',
+                    nama:'Simp Ban Ganal 1',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3386628189139618,
+                    lng:115.4572875901128,
+                    geojson:"",
+                    video:'stream011'
+                },*/
+		{
+                    id:'video12',
+                    nama:'Simp Ban Ganal',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3387924696271822,
+                    lng:115.45761060012256,
+                    geojson:"",
+                    video:'stream012'
                 },
                 {
-                    id:'video11',
-                    nama:'Simpang 3 Batu Piring',
+                    id:'video13',
+                    nama:'Simp Taman Sanggam',
                     wilayah:'PARINGIN SELATAN',
-                    lat:-2.338500,
-                    lng:115.457265,
+                    lat:-2.3366789093947933,
+                    lng:115.45918045672133,
                     geojson:"",
-                    video:'stream003'
+                    video:'stream013'
                 },
+		/*{
+                    id:'video14',
+                    nama:'Jembatan Paringin',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3368680072305477,
+                    lng:115.45885099120652,
+                    geojson:"",
+                    video:'stream014'
+                },
+                {
+                    id:'video15',
+                    nama:'Bundaran Paringin',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3361456899348454,
+                    lng:115.45989146825677,
+                    geojson:"",
+                    video:'stream015'
+                },*/
+		{
+                    id:'video16',
+                    nama:'Bundaran Paringin',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3361456899348454,
+                    lng:115.45989146825677,
+                    geojson:"",
+                    video:'stream016'
+                },
+                /*{
+                    id:'video17',
+                    nama:'Gedung Pancasila',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.33498896539932,
+                    lng:115.46119003613472,
+                    geojson:"",
+                    video:'stream017'
+                },*/
+		{
+                    id:'video18',
+                    nama:'Simp Pasar Paringin',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3350180199014328,
+                    lng:115.46110533714433,
+                    geojson:"",
+                    video:'stream018'
+                },
+                {
+                    id:'video19',
+                    nama:'Depan Bank Kalsel',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3342747321615622,
+                    lng:115.46147349836377,
+                    geojson:"",
+                    video:'stream019'
+                },
+		/*{
+                    id:'video20',
+                    nama:'Simp Pasar Adaro',
+                    wilayah:'PARINGIN SELATAN',
+                    lat:-2.3343307128702437,
+                    lng:115.46176500704544,
+                    geojson:"",
+                    video:'stream020'
+                },
+                {
+                    id:'video21',
+                    nama:'Jl. A. Yani (Depan Kantor Kec. Batumandi)',
+                    wilayah:'BATUMANDI',
+                    lat:-2.4271510492916977,
+                    lng:115.42373779484696,
+                    geojson:"",
+                    video:'stream021'
+                },
+		{
+                    id:'video22',
+                    nama:'Tugu Gula Habang',
+                    wilayah:'LAMPIHONG',
+                    lat:-2.340052301157203,
+                    lng:115.3764464361417,
+                    geojson:"",
+                    video:'stream022'
+                },*/
+
             ],
             wilayah:[
                 'AWAYAN',
-                'BATU MANDI',
+                'BATUMANDI',
                 'HALONG',
                 'JUAI',
                 'LAMPIHONG',

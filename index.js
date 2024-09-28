@@ -17,7 +17,7 @@ ffmpeg(rtspStreamUrl, { timeout: 432000 }).addOptions([
     '-strict -2',
     '-crf 18',
     '-profile:v baseline',
-    '-maxrate 400k',
+    '-maxrate 512k',
     '-bufsize 1835k',
     '-hls_time 10',
     '-hls_list_size 6',

@@ -11,19 +11,46 @@ dotenv.config();
 
 const cameras = [
   {
-    "id":"001", 
-    "url":"rtsp://admin:Password123@192.168.105.28:554/Streaming/Channels/001"
-  }, 
+    id: "001",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/102",
+  },
   {
-    "id":"002", 
-    "url":"rtsp://admin:Password123@192.168.105.27:554/Streaming/Channels/001"
-  }, 
+    id: "002",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/302",
+  },
   {
-    "id":"003", 
-    "url":"rtsp://admin:Password123@192.168.105.34:554/Streaming/Channels/001"
-  }
+    id: "003",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/502",
+  },
+  {
+    id: "004",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/802",
+  },
+  {
+    id: "005",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/1002",
+  },
+  {
+    id: "006",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/1202",
+  },
+  {
+    id: "007",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/1402",
+  },
+  {
+    id: "008",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/1602",
+  },
+  {
+    id: "009",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/1802",
+  },
+  {
+    id: "010",
+    url: "rtsp://username:password123@192.168.109.8:554/Streaming/Channels/2002",
+  },
 ];
-
 const numWorkers = process.env.WORKERS || os.cpus().length;
 
 if (cluster.isMaster) {
@@ -49,19 +76,19 @@ if (cluster.isMaster) {
   if (camera) {
     const outputPath = path.join(__dirname, 'public', 'streams', `stream${camera.id}.m3u8`);
 
-    ffmpeg(camera.url, { timeout: 432000 }).addOptions([
-      '-c:v libx264',
-      '-c:a aac',
-      '-ac 1',
-      '-strict -2',
-      '-crf 18',
-      '-profile:v baseline',
-      '-maxrate 400k',
-      '-bufsize 1835k',
-      '-hls_time 10',
-      '-hls_list_size 6',
-      '-start_number 0'
-    ])
+   ffmpeg(camera.url, { timeout: 432000 }).addOptions([
+     '-c:v libx264',
+     '-preset veryfast', // Mengatur preset encoding
+     '-profile:v baseline', // Profil lebih tinggi untuk kualitas lebih baik
+     '-crf 18', // Menjaga kualitas video tinggi
+     '-maxrate 400k', // Bitrate maksimum yang lebih tinggi
+     '-bufsize 1835k', // Buffer size yang lebih besar 
+     '-strict -2',
+     '-hls_time 10',
+     '-hls_list_size 6',
+     //'-hls_flags delete_segments',
+     '-start_number 0'
+     ])
     .output(outputPath)
     .on('start',  function (commandLine) {
       console.log(`Spawned FFmpeg with command: ${commandLine}`);
@@ -115,4 +142,4 @@ if (cluster.isMaster) {
     });
 
   app.listen(8000, () => console.log(`Worker ${cluster.worker.id} listening on port 8000!`));
-}
+    }  
